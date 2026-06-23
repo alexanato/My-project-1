@@ -10,6 +10,11 @@ public class DamageEffekt :WheelEffekt
         Symbol = "sword";
         type = EffektType.ATTACK;
     }
+
+    public override void doCost(Wheel contex)
+    {
+    }
+
     public override void DoEffekt(Wheel contex)
     {
         contex.damage += a;

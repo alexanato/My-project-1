@@ -48,10 +48,13 @@ public class Wheel : MonoBehaviour
     private bool drag;
     private bool spinni;
     private EffektType type;
+    public GameObject Shopppp;
+    public GameObject IEEE;
+    public GameObject IE;
     // wheel = true = Player
     // wheel = false = Enemy
     public bool wheel;
-    void Update()
+    public void Update()
     {
         if(drag) currentRot = Math.Max(0, currentRot - rotDrag * Time.deltaTime);
         transform.Rotate(new Vector3(0, 0, currentRot));
@@ -84,6 +87,13 @@ public class Wheel : MonoBehaviour
     private bool y= false;
     public IEnumerator doTurn()
     {
+        if( GameManager.currentPhase == 1)
+        {
+            Shopppp.SetActive(false);
+            IEEE.SetActive(true);
+            IE.SetActive(true);
+            GameManager.currentPhase = 0;
+        }
         y= true;
         if (EnemyWheel.x == (EnemyWheel.baseWheelCount + EnemyWheel.wheelCount) * 2)
         {
@@ -105,7 +115,7 @@ public class Wheel : MonoBehaviour
                 yield return new WaitForSeconds(0.5f);
                 spin();
                 x++;
-                yield return new WaitForSeconds(2.5f);
+                yield return new WaitUntil(()=>Math.Max(currentRot,0)==0);
                 execute();
             }
             GameManager.currentWheel = false;
