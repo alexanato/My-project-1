@@ -62,7 +62,7 @@ public class GameManager:MonoBehaviour
 
                 break;
             case "life":
-                return "<sprite name=\"life\">";
+                return "<sprite name=\"heart\">";
 
                 break;
             case "poison":
@@ -72,11 +72,14 @@ public class GameManager:MonoBehaviour
                 return "<sprite name=\"vacine\">";
                 break;
             case "weak":
-                return "<sprite name=\"broken\">";
                 break;
             case "wheel":
-                return "<sprite name=\"wheel\">";
+                return "<sprite=3>";
                 break;
+            case "curse":
+                return "<sprite name =\"curse\">";
+            case "glass":
+                return "<sprite name =\"glass\">";
         }
         return "<sprite name=\"broken\">";
     }

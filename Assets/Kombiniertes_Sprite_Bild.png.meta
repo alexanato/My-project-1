@@ -23,6 +23,18 @@ TextureImporter:
   - first:
       213: 2430685536958138109
     second: Kombiniertes_Sprite_Bild_6
+  - first:
+      213: -1840468726540262048
+    second: Kombiniertes_Sprite_Bild_7
+  - first:
+      213: -2334512349718529681
+    second: Kombiniertes_Sprite_Bild_8
+  - first:
+      213: 8522955181353672471
+    second: Kombiniertes_Sprite_Bild_9
+  - first:
+      213: 204112965807365219
+    second: Kombiniertes_Sprite_Bild_10
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -134,10 +146,10 @@ TextureImporter:
       name: Kombiniertes_Sprite_Bild_0
       rect:
         serializedVersion: 2
-        x: 46
-        y: 867
-        width: 199
-        height: 216
+        x: 0
+        y: 838
+        width: 266
+        height: 268
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,10 +168,10 @@ TextureImporter:
       name: Kombiniertes_Sprite_Bild_1
       rect:
         serializedVersion: 2
-        x: 6
-        y: 570
-        width: 255
-        height: 248
+        x: 319
+        y: 867
+        width: 188
+        height: 216
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,10 +190,10 @@ TextureImporter:
       name: Kombiniertes_Sprite_Bild_2
       rect:
         serializedVersion: 2
-        x: 271
-        y: 554
-        width: 269
-        height: 275
+        x: 19
+        y: 576
+        width: 235
+        height: 221
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,10 +212,10 @@ TextureImporter:
       name: Kombiniertes_Sprite_Bild_3
       rect:
         serializedVersion: 2
-        x: 542
-        y: 561
-        width: 266
-        height: 268
+        x: 277
+        y: 570
+        width: 255
+        height: 248
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -222,10 +234,10 @@ TextureImporter:
       name: Kombiniertes_Sprite_Bild_4
       rect:
         serializedVersion: 2
-        x: 13
-        y: 294
-        width: 218
-        height: 245
+        x: 542
+        y: 554
+        width: 269
+        height: 275
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -244,10 +256,10 @@ TextureImporter:
       name: Kombiniertes_Sprite_Bild_5
       rect:
         serializedVersion: 2
-        x: 325
-        y: 308
-        width: 177
-        height: 227
+        x: 35
+        y: 293
+        width: 159
+        height: 245
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -266,10 +278,10 @@ TextureImporter:
       name: Kombiniertes_Sprite_Bild_6
       rect:
         serializedVersion: 2
-        x: 561
-        y: 299
-        width: 235
-        height: 221
+        x: 291
+        y: 292
+        width: 236
+        height: 253
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -288,6 +300,28 @@ TextureImporter:
       name: Kombiniertes_Sprite_Bild_7
       rect:
         serializedVersion: 2
+        x: 596
+        y: 308
+        width: 177
+        height: 227
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0652a56c1775576e0800000000000000
+      internalID: -1840468726540262048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kombiniertes_Sprite_Bild_8
+      rect:
+        serializedVersion: 2
         x: 29
         y: 31
         width: 205
@@ -298,16 +332,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 70a651efd60ac57418edc9840ed43da3
-      internalID: -1545011757
+      spriteID: f69b34ff2652a9fd0800000000000000
+      internalID: -2334512349718529681
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kombiniertes_Sprite_Bild_8
+      name: Kombiniertes_Sprite_Bild_9
       rect:
         serializedVersion: 2
         x: 294
@@ -320,32 +354,32 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 6172a21c368b19f49a1296e69e72815c
-      internalID: 659649369
+      spriteID: 71f1925b49e974670800000000000000
+      internalID: 8522955181353672471
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kombiniertes_Sprite_Bild_9
+      name: Kombiniertes_Sprite_Bild_10
       rect:
         serializedVersion: 2
-        x: 562
-        y: 15
-        width: 236
-        height: 253
+        x: 549
+        y: 10
+        width: 250
+        height: 263
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: b9285f071b8711544bde86007d1596b8
-      internalID: 2084112621
+      spriteID: 36cdff439a725d200800000000000000
+      internalID: 204112965807365219
       vertices: []
       indices: 
       edges: []
@@ -354,7 +388,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 02426167ee8af734fb199dd568dbbc04
+    spriteID: 0ff029c6ea5352f40ba1f47961bdc34f
     internalID: 0
     vertices: []
     indices: 
@@ -368,14 +402,15 @@ TextureImporter:
     nameFileIdTable:
       Kombiniertes_Sprite_Bild_0: 5780001847090691676
       Kombiniertes_Sprite_Bild_1: 8002486385741249033
+      Kombiniertes_Sprite_Bild_10: 204112965807365219
       Kombiniertes_Sprite_Bild_2: -5355916535047612400
       Kombiniertes_Sprite_Bild_3: -5454084085923016972
       Kombiniertes_Sprite_Bild_4: 4633485391642314602
       Kombiniertes_Sprite_Bild_5: -7933833686454287092
       Kombiniertes_Sprite_Bild_6: 2430685536958138109
-      Kombiniertes_Sprite_Bild_7: -1545011757
-      Kombiniertes_Sprite_Bild_8: 659649369
-      Kombiniertes_Sprite_Bild_9: 2084112621
+      Kombiniertes_Sprite_Bild_7: -1840468726540262048
+      Kombiniertes_Sprite_Bild_8: -2334512349718529681
+      Kombiniertes_Sprite_Bild_9: 8522955181353672471
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

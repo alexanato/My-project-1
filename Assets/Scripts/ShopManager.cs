@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class ShopManager : MonoBehaviour
@@ -7,6 +8,9 @@ public class ShopManager : MonoBehaviour
     private int lastPhase = 0;
     public int dubai = 0;
     public GameObject AskField;
+    public TMP_Text AskFieldText;
+    public TMP_Text ErrorText;
+    public GameObject errorField;
     public Wheel playeri;
     void Update()
     {
@@ -29,9 +33,22 @@ public class ShopManager : MonoBehaviour
     {
         StartCoroutine(BuyItem(segmentEntry));
     }
+    public void close(GameObject gameObject)
+    {
+        gameObject.SetActive(false);
+    }
     public IEnumerator BuyItem(SegmentEntry segmentEntry)
     {
+        if (errorField.activeSelf) yield break;
+        if (AskField.activeSelf) yield break;
+        if (!segmentEntry.effekt.haveCost(playeri))
+        {
+            errorField.SetActive(true);
+            ErrorText.text = segmentEntry.effekt.name;
+            yield break;
+        }
         AskField.gameObject.SetActive(true);
+        AskFieldText.text = segmentEntry.effekt.name;
         yield return new WaitUntil(()=>(dubai==1|| dubai == 2));
         AskField.gameObject.SetActive(false);
         if(dubai == 1)

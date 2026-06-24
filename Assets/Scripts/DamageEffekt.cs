@@ -7,6 +7,7 @@ public class DamageEffekt :WheelEffekt
     {
         Description = "+"+ a +GameManager.Get("damage");
         this.a = a;
+        name = "weak Hit";
         Symbol = "sword";
         type = EffektType.ATTACK;
     }
@@ -18,5 +19,10 @@ public class DamageEffekt :WheelEffekt
     public override void DoEffekt(Wheel contex)
     {
         contex.damage += a;
+    }
+
+    public override bool haveCost(Wheel contex)
+    {
+        return true;
     }
 }

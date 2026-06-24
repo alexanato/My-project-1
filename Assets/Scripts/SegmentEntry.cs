@@ -8,6 +8,7 @@ public class SegmentEntry : MonoBehaviour
     public WheelEffekt effekt;
     public TMP_Text Desc;
     public TMP_Text cost;
+    public TMP_Text name;
     public Image bg;
     private void Start()
     {
@@ -18,6 +19,7 @@ public class SegmentEntry : MonoBehaviour
         Desc.text = effekt.Description;
         bg.color = GameManager.WheelColor[effekt.color];
         cost.text = effekt.Cost;
+        name.text = effekt.name;
     }
     public void Buy()
     {
