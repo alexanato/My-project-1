@@ -8,6 +8,7 @@ public class GameManager:MonoBehaviour
     //true = player turn
     public static bool currentWheel = true;
     public static int currentPhase = 1;
+    public static int stage = 0;
     public static Color[] WheelColor = new Color[8]
     {
     new Color32(0xB6, 0x00, 0x7C, 255), // 0 Magenta/Pink

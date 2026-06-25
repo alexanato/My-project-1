@@ -5,19 +5,23 @@ using UnityEngine;
 public class ShopManager : MonoBehaviour
 {
     public SegmentEntry[] entrys = new SegmentEntry[3];
-    private int lastPhase = 0;
+    public int lastPhase = 0;
     public int dubai = 0;
     public GameObject AskField;
     public TMP_Text AskFieldText;
     public TMP_Text ErrorText;
     public GameObject errorField;
     public Wheel playeri;
+    public EffectManager effectManager;
     void Update()
     {
         if (GameManager.currentPhase == 1&& lastPhase != 1)
         {
             for (int i = 0; i < entrys.Length; i++)
             {
+                entrys[i].effekt = effectManager.CreateRandomEffect();
+                entrys[i].effekt.color = Random.Range(0, 8);
+                print("a");
                 entrys[i].gameObject.SetActive(true);
             }
         }else if (GameManager.currentPhase == 0 && lastPhase != 0)

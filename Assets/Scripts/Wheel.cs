@@ -46,6 +46,7 @@ public class Wheel : MonoBehaviour
     public TMP_Text damageSummText;
     public TMP_Text wheelText;
     public TMP_Text SpecialLuckText;
+    public TMP_Text stageText;
     public Animator lucki;
     public Wheel EnemyWheel;
     private bool drag;
@@ -73,6 +74,7 @@ public class Wheel : MonoBehaviour
         if (wheelText != null) wheelText.text = "" + (baseWheelCount+wheelCount-(int)(x/2));
         if (damageSummText != null) damageSummText.text = "" + ((damage + baseDamage) * (target + baseTarget) - weak);
         if (poisonSummText != null) poisonSummText.text = "" + (life - (Math.Max(0, poisen - vacine)));
+        if (stageText != null) stageText.text = GameManager.stage + "/30";
         for (int i = 0; i < segmentEntrys.Count; i++) 
         {
             segmentEntrys[i].description.text =  Effekts[i].Description;
@@ -97,6 +99,7 @@ public class Wheel : MonoBehaviour
             IEEE.SetActive(true);
             IE.SetActive(true);
             GameManager.currentPhase = 0;
+            yield break;
         }
         y= true;
         if (EnemyWheel.x == (EnemyWheel.baseWheelCount + EnemyWheel.wheelCount) * 2)
@@ -173,8 +176,8 @@ public class Wheel : MonoBehaviour
                         yield return new WaitUntil(() => !lucki.GetComponent<LuckText>().doit);
                         break;
                     case 9:
-                        SpecialLuckText.text = "+1" + GameManager.Get("luck");
-                        EnemyWheel.luck += 1;
+                        SpecialLuckText.text = "+5" + GameManager.Get("luck");
+                        EnemyWheel.luck += 5;
                         lucki.SetBool("doit", true);
                         yield return new WaitForSeconds(0.1f);
                         lucki.SetBool("doit", false);
@@ -196,6 +199,8 @@ public class Wheel : MonoBehaviour
                 Shopppp.SetActive(true);
                 IEEE.SetActive(false);
                 IE.SetActive(false);
+                Shopppp.GetComponent<ShopManager>().lastPhase = 0;
+                GameManager.stage++;
                 GameManager.currentPhase = 1;
             }
             x= 0;
@@ -229,7 +234,7 @@ public class Wheel : MonoBehaviour
     private bool h = true;
     public void doPlayer()
     {
-        if (wheel && !GameManager.currentWheel&&h)
+        if (wheel && !GameManager.currentWheel && h && GameManager.currentPhase == 1)
         {
             if(x == (baseWheelCount + wheelCount) * 2)
             {
