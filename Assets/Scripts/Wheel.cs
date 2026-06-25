@@ -15,7 +15,7 @@ public class Wheel : MonoBehaviour
         public TMP_Text description;
         public Image symblol;
     }
-    [SerializeField] private Vector2 rotRange = new Vector2 (90,180);
+    [SerializeField] public Vector2 rotRange = new Vector2 (90,180);
     [SerializeField] private float rotDrag = 3;
     private float currentRot;
     [SerializeField] int startOffset = 0;
@@ -50,7 +50,7 @@ public class Wheel : MonoBehaviour
     public Wheel EnemyWheel;
     private bool drag;
     private bool spinni;
-    private EffektType type;
+    public EffektType type;
     public GameObject Shopppp;
     public GameObject IEEE;
     public GameObject IE;
@@ -267,8 +267,17 @@ public class Wheel : MonoBehaviour
         Effekts[getCurrentColor()].DoEffekt(this);
         type = Effekts[getCurrentColor()].type;
     }
-    private int getCurrentColor()
+    public int getCurrentColor()
     {
          return((int)( (transform.eulerAngles.z) / 45) + startOffset)%8;
+    }
+    public int getCurses()
+    {
+        int y = 0;
+        for(int i = 0; i < 8; i++) 
+        {
+            if (Effekts[i].Symbol.Equals("curse")) y++;
+        }
+        return y;
     }
 }

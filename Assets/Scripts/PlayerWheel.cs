@@ -16,7 +16,7 @@ public class PlayerWheel : Wheel
         GameManager.PlayerWheel = this;
         Effekts[0] = new DamageEffekt(); 
         Effekts[1] = new DamageEffekt(); 
-        Effekts[2] = new DamageEffekt(); 
+        Effekts[2] = new AllOrNothing(); 
         Effekts[3] = new DamageEffekt(); 
         Effekts[4] = new DamageEffekt(43); 
         Effekts[5] = new DamageEffekt(); 

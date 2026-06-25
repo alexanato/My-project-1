@@ -44,6 +44,7 @@ public class GameManager:MonoBehaviour
 
     public static string Get(string type)
     {
+        type =type.Trim();
         switch (type)
         {
             case "damage":
