@@ -82,7 +82,7 @@ public class Wheel : MonoBehaviour
 
     public void Update()
     {
-        if( z != getCurrentColor()&&!wheel)
+        if( z != getCurrentColor())
         {
             print(segmentEntrys[z].description.text);
             audioSource.pitch = 1 + UnityEngine.Random.Range(-0.1f,0.1f);

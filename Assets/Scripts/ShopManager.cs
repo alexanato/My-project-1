@@ -190,13 +190,13 @@ public class ShopManager : MonoBehaviour
 
         if (currentEffect != null && currentEffect.IsCurse)
         {
-            ShowError("Dieses Segment ist permanent verflucht.");
+            ShowError("this segment is cursed ");
             yield break;
         }
 
         if (!segmentEntry.effekt.haveCost(playeri))
         {
-            ShowError("Kosten nicht bezahlbar: " + segmentEntry.effekt.Cost);
+            ShowError("too expensive " + segmentEntry.effekt.Cost);
             yield break;
         }
 

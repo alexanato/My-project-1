@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     public static Wheel EnemyWheel;
     public static Wheel PlayerWheel;
 
-    private void Awake()
+    private void Start()
     {
         instance = this;
         stage = Mathf.Clamp(stage, 1, 30);

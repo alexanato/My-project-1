@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerWheel : Wheel
 {
@@ -29,7 +30,7 @@ public class PlayerWheel : Wheel
 
         Effekts[0] = new DamageEffekt(2);
         Effekts[1] = new DamageEffekt(2);
-        Effekts[2] = new AllOrNothing();
+        Effekts[2] = new DamageEffekt(2);
         Effekts[3] = new DamageEffekt(2);
         Effekts[4] = new DamageEffekt(4);
         Effekts[5] = new DamageEffekt(2);
@@ -85,9 +86,11 @@ public class PlayerWheel : Wheel
 
     public void OnDeath()
     {
+        SceneManager.LoadScene(3);
     }
 
     public void OnWin()
     {
+        SceneManager.LoadScene(2);
     }
 }
