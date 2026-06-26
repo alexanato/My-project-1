@@ -8,7 +8,7 @@ public class Focus : WheelEffekt
         name = "Focus";
         Symbol = "target";
         Description = "Trigger one neighboring non-curse segment and gain +1 " + GameManager.Get("target");
-        Cost = "-1 base " + GameManager.Get("wheel");
+        Cost = "-1 base " + GameManager.Get("armor");
         type = EffektType.UTILITY;
     }
 
@@ -16,19 +16,19 @@ public class Focus : WheelEffekt
 
     public override void doCost(Wheel contex)
     {
-        contex.baseWheelCount -= 1;
+        contex.baseArmor -= 1;
     }
 
     public override void DoEffekt(Wheel contex)
     {
         int direction = Random.Range(0, 2) == 0 ? -1 : 1;
-                int index = (contex.getCurrentColor() + direction + 8) % 8;
-                contex.TryTriggerSecondaryEffect(index);
-                contex.target += 1;
+        int index = (contex.getCurrentColor() + direction + 8) % 8;
+        contex.TryTriggerSecondaryEffect(index);
+        contex.target += 1;
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return contex.baseWheelCount >= 2;
+        return contex.baseArmor >= 1;
     }
 }

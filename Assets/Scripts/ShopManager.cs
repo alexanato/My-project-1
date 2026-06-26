@@ -64,8 +64,6 @@ public class ShopManager : MonoBehaviour
             entry.gameObject.SetActive(entry.effekt != null);
         }
 
-        // Der Shop darf nicht ausschließlich aus unbezahlbaren Angeboten
-        // oder Angeboten für bereits verfluchte Farben bestehen.
         if (!HasBuyableOffer() && entrys.Length > 0 && entrys[0] != null)
         {
             for (int attempt = 0; attempt < 100; attempt++)

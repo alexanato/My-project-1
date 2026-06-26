@@ -3126,8 +3126,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6983,8 +6983,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9042,7 +9042,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1.5999107, y: -28.70002}
+  m_AnchoredPosition: {x: 1.5999146, y: -28.70002}
   m_SizeDelta: {x: -44.1112, y: 3.902296}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &995598545
@@ -9678,6 +9678,7 @@ MonoBehaviour:
   rotDrag: 4
   startOffset: 1
   maxBonusWheelCount: 2
+  maxBaseWheelCount: 5
   minimumWheelSpeed: 3
   maximumWheelSpeed: 360
   segmentEntrys:
@@ -9739,6 +9740,9 @@ MonoBehaviour:
   textto: {fileID: 202143434}
   textro: {fileID: 1892861075}
   textfi: {fileID: 1635712364}
+  bab: {fileID: 1004051744}
+  bbb: {fileID: 1004051743}
+  tttt: {fileID: 1627307476}
 --- !u!82 &1035661640
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10361,8 +10365,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -14150,6 +14154,7 @@ MonoBehaviour:
   rotDrag: 3
   startOffset: 7
   maxBonusWheelCount: 2
+  maxBaseWheelCount: 5
   minimumWheelSpeed: 3
   maximumWheelSpeed: 360
   segmentEntrys:
@@ -14914,7 +14919,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1730007605
 RectTransform:
   m_ObjectHideFlags: 0

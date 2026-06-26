@@ -19,6 +19,7 @@ public class Wheel : MonoBehaviour
     private float currentRot;
     [SerializeField] public int startOffset = 0;
     [SerializeField] private int maxBonusWheelCount = 2;
+    [SerializeField] private int maxBaseWheelCount = 5;
     [SerializeField] private float minimumWheelSpeed = 3f;
     [SerializeField] private float maximumWheelSpeed = 13f;
 
@@ -78,6 +79,7 @@ public class Wheel : MonoBehaviour
     public int TotalTargets => Mathf.Max(1, baseTarget + target);
     public int EffectivePoison => Mathf.Max(0, poisen - vacine);
     public int RemainingWheels => Mathf.Max(0, baseWheelCount + wheelCount - x / 2);
+    public int MaxBaseWheelCount => Mathf.Max(1, maxBaseWheelCount);
     private int z = 0;
 
     public void Update()
@@ -120,14 +122,12 @@ public class Wheel : MonoBehaviour
             }
 
             if (segmentEntrys[i].symblol != null &&
-                GameManager.sprites.TryGetValue(Effekts[i].Symbol, out Sprite sprite))
+                GameManager.sprites.TryGetValue(Effekts[i].DisplaySymbol, out Sprite sprite))
             {
                 segmentEntrys[i].symblol.sprite = sprite;
             }
         }
 
-        // Nur das Spielerrad wird per Klick gestoppt. Der Gegner wird in doTurn()
-        // automatisch gedreht und dort direkt ausgeführt.
         if (currentRot <= 0f && spinni && wheel)
         {
             spinni = false;
@@ -146,8 +146,6 @@ public class Wheel : MonoBehaviour
 
     public void turni()
     {
-        // Falls der Button aus Versehen am EnemyWheel hängt, wird trotzdem
-        // das Spielerrad verwendet. Die öffentliche Struktur bleibt gleich.
         if (!wheel)
         {
             if (GameManager.PlayerWheel != null)
@@ -197,8 +195,6 @@ public class Wheel : MonoBehaviour
         EnemyWheel.x = 0;
         EnemyWheel.wheelCount = 0;
 
-        // Der Gegner beginnt immer. Erst wenn alle gegnerischen Drehungen
-        // abgeschlossen sind, darf der Spieler reagieren.
         yield return StartCoroutine(ApplyLuckEffect(EnemyWheel));
         yield return StartCoroutine(RunEnemyTurn());
         yield return StartCoroutine(ApplyLuckEffect(this));
@@ -248,7 +244,6 @@ public class Wheel : MonoBehaviour
         roundResolutionRunning = true;
         GameManager.currentWheel = false;
 
-        // Beide Angriffe werden erst nach dem Spielerzug ausgewertet.
         apply();
         if (EnemyWheel != null) EnemyWheel.apply();
 
@@ -309,7 +304,6 @@ public class Wheel : MonoBehaviour
             yield break;
         }
 
-        // Nächste Kampfrunde: wieder zuerst der Gegner, dann der Spieler.
         yield return StartCoroutine(ApplyLuckEffect(EnemyWheel));
         yield return StartCoroutine(RunEnemyTurn());
         yield return StartCoroutine(ApplyLuckEffect(this));
@@ -326,7 +320,7 @@ public class Wheel : MonoBehaviour
         }
         else
         {
-            Heal(Mathf.Max(8, Mathf.CeilToInt(maxLife * 0.15f)));
+            Heal(Mathf.Max(10, Mathf.CeilToInt(maxLife * 0.20f)));
         }
     }
 
@@ -492,6 +486,12 @@ public class Wheel : MonoBehaviour
         wheelCount = Mathf.Min(maxBonusWheelCount, wheelCount + amount);
     }
 
+    public void AddBaseWheels(int amount)
+    {
+        if (amount == 0) return;
+        baseWheelCount = Mathf.Clamp(baseWheelCount + amount, 1, MaxBaseWheelCount);
+    }
+
     public void AddLuck(int amount)
     {
         luck = Mathf.Clamp(luck + amount, 0, 100);
@@ -550,57 +550,59 @@ public class Wheel : MonoBehaviour
 
         switch (stage)
         {
-            case 1:  ConfigureEnemy(42, 1, 0, 1, 1, 0, 0, EnemyLoadout.Recruit); break;
-            case 2:  ConfigureEnemy(48, 1, 1, 1, 1, 2, 0, EnemyLoadout.Guard); break;
-            case 3:  ConfigureEnemy(52, 2, 0, 1, 1, 0, 0, EnemyLoadout.PoisonHunter); break;
-            case 4:  ConfigureEnemy(60, 2, 1, 1, 1, 4, 0, EnemyLoadout.Berserker); break;
-            case 5:  ConfigureEnemy(85, 3, 3, 1, 1, 5, 1, EnemyLoadout.Guard); break;
-            case 6:  ConfigureEnemy(70, 2, 1, 1, 1, 4, 1, EnemyLoadout.Berserker); break;
-            case 7:  ConfigureEnemy(76, 3, 2, 1, 1, 2, 1, EnemyLoadout.Guard); break;
-            case 8:  ConfigureEnemy(82, 2, 2, 1, 1, 6, 1, EnemyLoadout.WheelRunner); break;
-            case 9:  ConfigureEnemy(94, 3, 3, 1, 1, 8, 1, EnemyLoadout.Control); break;
-            case 10: ConfigureEnemy(130, 4, 4, 1, 2, 10, 2, EnemyLoadout.Gambler); break;
-            case 11: ConfigureEnemy(100, 4, 2, 1, 1, 5, 2, EnemyLoadout.PoisonHunter); break;
-            case 12: ConfigureEnemy(108, 4, 3, 1, 1, 8, 2, EnemyLoadout.Control); break;
-            case 13: ConfigureEnemy(116, 5, 2, 1, 1, 6, 2, EnemyLoadout.Berserker); break;
-            case 14: ConfigureEnemy(130, 5, 4, 1, 1, 10, 2, EnemyLoadout.Plague); break;
-            case 15: ConfigureEnemy(178, 6, 5, 1, 2, 12, 3, EnemyLoadout.Plague); break;
-            case 16: ConfigureEnemy(142, 5, 3, 1, 1, 12, 3, EnemyLoadout.Gambler); break;
-            case 17: ConfigureEnemy(152, 6, 3, 1, 1, 10, 3, EnemyLoadout.Berserker); break;
-            case 18: ConfigureEnemy(165, 5, 4, 1, 2, 14, 3, EnemyLoadout.WheelRunner); break;
-            case 19: ConfigureEnemy(182, 6, 5, 1, 2, 16, 3, EnemyLoadout.Control); break;
-            case 20: ConfigureEnemy(240, 7, 6, 1, 2, 18, 4, EnemyLoadout.WheelRunner); break;
+            case 1:  ConfigureEnemy(38, 1, 0, 1, 1, 0, 0, EnemyLoadout.Recruit); break;
+            case 2:  ConfigureEnemy(42, 1, 1, 1, 1, 2, 0, EnemyLoadout.Guard); break;
+            case 3:  ConfigureEnemy(46, 1, 0, 1, 1, 2, 0, EnemyLoadout.PoisonHunter); break;
+
+            case 4:  ConfigureEnemy(52, 2, 1, 1, 2, 3, 0, EnemyLoadout.Berserker); break;
+            case 5:  ConfigureEnemy(70, 2, 2, 1, 2, 5, 1, EnemyLoadout.Guard); break;
+            case 6:  ConfigureEnemy(58, 2, 1, 1, 2, 4, 1, EnemyLoadout.Berserker); break;
+            case 7:  ConfigureEnemy(64, 2, 2, 1, 2, 4, 1, EnemyLoadout.Guard); break;
+            case 8:  ConfigureEnemy(68, 2, 2, 1, 2, 5, 1, EnemyLoadout.WheelRunner); break;
+            case 9:  ConfigureEnemy(76, 3, 2, 1, 2, 6, 1, EnemyLoadout.Control); break;
+            case 10: ConfigureEnemy(100, 3, 3, 1, 2, 8, 2, EnemyLoadout.Gambler); break;
+
+            case 11: ConfigureEnemy(84, 3, 2, 1, 2, 6, 2, EnemyLoadout.PoisonHunter); break;
+            case 12: ConfigureEnemy(90, 3, 3, 1, 2, 7, 2, EnemyLoadout.Control); break;
+            case 13: ConfigureEnemy(96, 4, 2, 1, 2, 7, 2, EnemyLoadout.Berserker); break;
+            case 14: ConfigureEnemy(106, 4, 3, 1, 2, 8, 2, EnemyLoadout.Plague); break;
+            case 15: ConfigureEnemy(140, 4, 4, 1, 2, 10, 3, EnemyLoadout.Plague); break;
+            case 16: ConfigureEnemy(116, 4, 3, 1, 2, 10, 3, EnemyLoadout.Gambler); break;
+            case 17: ConfigureEnemy(124, 5, 3, 1, 2, 10, 3, EnemyLoadout.Berserker); break;
+            case 18: ConfigureEnemy(132, 4, 4, 1, 2, 12, 3, EnemyLoadout.WheelRunner); break;
+            case 19: ConfigureEnemy(142, 5, 4, 1, 2, 12, 3, EnemyLoadout.Control); break;
+            case 20: ConfigureEnemy(185, 5, 5, 1, 3, 14, 4, EnemyLoadout.WheelRunner); break;
+
             case 21:
-                ConfigureEnemy(195, 7, 4, 1, 1, 15, 4, EnemyLoadout.Cursed);
-                poisen = 2;
+                ConfigureEnemy(154, 5, 4, 1, 2, 13, 4, EnemyLoadout.Cursed);
+                poisen = 1;
                 break;
-            case 22: ConfigureEnemy(210, 7, 5, 1, 2, 18, 4, EnemyLoadout.Control); break;
-            case 23: ConfigureEnemy(225, 8, 4, 1, 2, 16, 4, EnemyLoadout.Plague); break;
+            case 22: ConfigureEnemy(166, 6, 4, 1, 2, 14, 4, EnemyLoadout.Control); break;
+            case 23: ConfigureEnemy(178, 6, 4, 1, 2, 15, 4, EnemyLoadout.Plague); break;
             case 24:
-                ConfigureEnemy(245, 8, 6, 1, 2, 20, 4, EnemyLoadout.Cursed);
+                ConfigureEnemy(190, 6, 5, 1, 2, 16, 4, EnemyLoadout.Cursed);
+                poisen = 1;
+                break;
+            case 25:
+                ConfigureEnemy(245, 6, 6, 1, 3, 18, 5, EnemyLoadout.Cursed);
                 poisen = 2;
                 weak = 1;
                 break;
-            case 25:
-                ConfigureEnemy(320, 8, 7, 2, 1, 22, 5, EnemyLoadout.Cursed);
-                poisen = 4;
-                weak = 2;
-                break;
-            case 26: ConfigureEnemy(265, 9, 5, 1, 2, 20, 5, EnemyLoadout.Berserker); break;
-            case 27: ConfigureEnemy(285, 9, 6, 1, 2, 22, 5, EnemyLoadout.Plague); break;
+            case 26: ConfigureEnemy(205, 7, 5, 1, 2, 18, 5, EnemyLoadout.Berserker); break;
+            case 27: ConfigureEnemy(220, 7, 5, 1, 2, 19, 5, EnemyLoadout.Plague); break;
             case 28:
-                ConfigureEnemy(310, 10, 6, 1, 2, 24, 5, EnemyLoadout.CursedClockwork);
-                poisen = 2;
+                ConfigureEnemy(235, 7, 6, 1, 2, 20, 5, EnemyLoadout.CursedClockwork);
+                poisen = 1;
                 break;
             case 29:
-                ConfigureEnemy(340, 10, 8, 1, 2, 26, 5, EnemyLoadout.Cursed);
-                poisen = 2;
+                ConfigureEnemy(255, 8, 6, 1, 2, 22, 5, EnemyLoadout.Cursed);
+                poisen = 1;
                 weak = 1;
                 break;
             case 30:
-                ConfigureEnemy(460, 9, 9, 2, 2, 30, 6, EnemyLoadout.FinalBoss);
-                poisen = 5;
-                weak = 2;
+                ConfigureEnemy(340, 7, 7, 1, 3, 24, 6, EnemyLoadout.FinalBoss);
+                poisen = 2;
+                weak = 1;
                 break;
         }
     }
@@ -635,7 +637,7 @@ public class Wheel : MonoBehaviour
         baseDamage = enemyBaseDamage;
         baseArmor = enemyBaseArmor;
         baseTarget = enemyBaseTargets;
-        baseWheelCount = enemyBaseWheels;
+        baseWheelCount = Mathf.Clamp(enemyBaseWheels, 1, MaxBaseWheelCount);
         luck = Mathf.Clamp(enemyLuck, 0, 100);
         vacine = Mathf.Max(0, enemyVaccine);
 
@@ -677,7 +679,7 @@ public class Wheel : MonoBehaviour
                 SetEnemyEffects(new CurseRigorMortis(), new SynergyCurseCatalyst(), new ExtraSpin(), new HeavyFlywheel(), new Recoil(), new Momentum(), new EnergyShield(), new DamageEffekt(2));
                 break;
             case EnemyLoadout.FinalBoss:
-                SetEnemyEffects(new CurseLeadWeight(), new CurseRigorMortis(), new SynergyCurseCatalyst(), new Overload(), new PrecisionStrike(), new ToxicShield(), new EnergyShield(), new VengeanceStrike());
+                SetEnemyEffects(new CurseLeadWeight(), new CurseRigorMortis(), new SynergyCurseCatalyst(), new DamageEffekt(4), new ArmorBreak(), new ToxicShield(), new EnergyShield(), new VengeanceStrike());
                 break;
         }
     }

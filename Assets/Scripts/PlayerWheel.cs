@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerWheel : Wheel
 {
@@ -11,6 +12,9 @@ public class PlayerWheel : Wheel
     public TMP_Text textro;
     public TMP_Text textfi;
 
+    public Image bab;
+    public Button bbb;
+    public TMP_Text tttt;
     private void Start()
     {
         wheel = true;
@@ -21,7 +25,7 @@ public class PlayerWheel : Wheel
         baseDamage = 3;
         baseArmor = 3;
         baseTarget = 2;
-        baseWheelCount = 1;
+        baseWheelCount = 2;
         luck = 10;
         vacine = 1;
         poisen = 0;
@@ -51,7 +55,18 @@ public class PlayerWheel : Wheel
     {
 
         base.Update();
-
+        if(GameManager.currentPhase == 1) { 
+            bab.enabled = true;
+            bbb.enabled = true;
+            tttt.enabled = true;
+        }
+        else
+        {
+            bab.enabled = false;
+            bbb.enabled = false;
+            tttt.enabled = false;
+        }
+        weak = Mathf.Clamp(weak, 0, 10);
         int outgoingDamage = Mathf.Max(0, TotalDamage * TotalTargets - weak);
         int enemyOutgoingDamage = EnemyWheel == null
             ? 0
@@ -59,7 +74,7 @@ public class PlayerWheel : Wheel
 
         if (texti != null)
         {
-            texti.text = $"{GameManager.Get("damage")}{TotalDamage}x{GameManager.Get("target")}{TotalTargets}-{GameManager.Get("weak")}{weak}={outgoingDamage}";
+            texti.text = $"{GameManager.Get("damage")}{TotalDamage}x{GameManager.Get("target")}{TotalTargets}-{GameManager.Get("weak")}{weak}={outgoingDamage} total{GameManager.Get("damage")}";
         }
 
         if (textri != null)
@@ -69,7 +84,7 @@ public class PlayerWheel : Wheel
 
         if (textto != null)
         {
-            textto.text = $"{GameManager.Get("life")}{life}-{GameManager.Get("poison")}{EffectivePoison}={GameManager.Get("life")}{life - EffectivePoison}";
+            textto.text = $"{GameManager.Get("life")}{life}-{GameManager.Get("poison")}{EffectivePoison}={GameManager.Get("life")}{life - EffectivePoison} total{GameManager.Get("life")}";
         }
 
         if (textro != null)

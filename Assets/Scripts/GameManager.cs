@@ -38,14 +38,59 @@ public class GameManager : MonoBehaviour
     public static Wheel EnemyWheel;
     public static Wheel PlayerWheel;
 
-    private void Start()
+    // Wird auch ausgeführt, wenn im Unity-Editor "Enter Play Mode Options"
+    // ohne Domain Reload verwendet wird. So bleiben keine Werte aus dem
+    // vorherigen Testlauf erhalten.
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStaticsBeforePlayMode()
     {
-        instance = this;
-        stage = Mathf.Clamp(stage, 1, 30);
-        currentPhase = 0;
-        currentWheel = false;
+        ResetStaticFields();
+    }
 
-        sprites.Clear();
+    private void Awake()
+    {
+        // Jede neu geladene Gameplay-Scene beginnt einen vollständig neuen Run.
+        ResetRunState();
+        instance = this;
+        RegisterSprites();
+    }
+
+    /// <summary>
+    /// Setzt alle Daten zurück, die einen Scene-Wechsel überleben können.
+    /// Player- und Enemy-Instanzwerte werden anschließend in deren Start()-
+    /// Methoden neu initialisiert.
+    /// </summary>
+    public static void ResetRunState()
+    {
+        ResetStaticFields();
+
+        // Verhindert, dass ein pausierter Run nach dem Reload pausiert bleibt.
+        Time.timeScale = 1f;
+        AudioListener.pause = false;
+    }
+
+    private static void ResetStaticFields()
+    {
+        currentWheel = false;
+        currentPhase = 0;
+        stage = 1;
+
+        EnemyWheel = null;
+        PlayerWheel = null;
+        instance = null;
+
+        if (sprites == null)
+        {
+            sprites = new Dictionary<string, Sprite>();
+        }
+        else
+        {
+            sprites.Clear();
+        }
+    }
+
+    private void RegisterSprites()
+    {
         if (localSprites == null)
         {
             return;

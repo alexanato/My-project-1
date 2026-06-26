@@ -69,7 +69,14 @@ public class EffectManager : MonoBehaviour
 
         try
         {
-            return Activator.CreateInstance(effectType) as WheelEffekt;
+            WheelEffekt effect = Activator.CreateInstance(effectType) as WheelEffekt;
+
+            if (effect != null && effect.IsCurse)
+            {
+                effect.Symbol = "curse";
+            }
+
+            return effect;
         }
         catch (Exception exception)
         {

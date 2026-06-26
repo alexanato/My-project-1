@@ -26,7 +26,12 @@ public class SegmentEntry : MonoBehaviour
         if (Desc != null) Desc.text = effekt.Description;
         if (bg != null) bg.color = GameManager.WheelColor[Mathf.Clamp(effekt.color, 0, 7)];
         if (cost != null) cost.text = effekt.Cost;
-        if (name != null) name.text = effekt.name;
+        if (name != null)
+        {
+            name.text = effekt.IsCurse
+                ? GameManager.Get("curse") + " " + effekt.name
+                : effekt.name;
+        }
     }
 
     public void Buy()

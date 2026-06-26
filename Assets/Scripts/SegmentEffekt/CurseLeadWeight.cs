@@ -8,7 +8,7 @@ public class CurseLeadWeight : WheelEffekt
         name = "Lead Weight";
         Symbol = "curse";
         Description = "Curse: end your turn and gain 2 " + GameManager.Get("weak");
-        Cost = "+1 base " + GameManager.Get("wheel") + ", +1.25 speed";
+        Cost = "+1 base " + GameManager.Get("wheel") + ", +1 speed";
         type = EffektType.CURSE;
     }
 
@@ -16,18 +16,18 @@ public class CurseLeadWeight : WheelEffekt
 
     public override void doCost(Wheel contex)
     {
-        contex.baseWheelCount += 1;
-                contex.ChangeWheelSpeed(1.25f);
+        contex.AddBaseWheels(1);
+        contex.ChangeWheelSpeed(1f);
     }
 
     public override void DoEffekt(Wheel contex)
     {
         contex.weak += 2;
-                contex.EndCurrentTurn();
+        contex.EndCurrentTurn();
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return true;
+        return contex.baseWheelCount < contex.MaxBaseWheelCount;
     }
 }
