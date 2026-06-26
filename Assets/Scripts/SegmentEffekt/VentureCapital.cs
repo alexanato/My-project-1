@@ -3,25 +3,26 @@ using UnityEngine;
 [Effect("VentureCapital")]
 public class VentureCapital : WheelEffekt
 {
-    // Original Rad-Effekt: Risiko-Kapital +5 Damage pro 10 fehlende Lebenspunkte bei dir selbst.
-    // Original Kauf-Modifikator: -3 Basis-Rüstung, -10 Glück.
     public VentureCapital()
     {
         name = "Venture Capital";
         Symbol = "none";
-        Description = ""+GameManager.Get("life") +"=1 +20" + GameManager.Get("damage");
-        Cost = "+15" + GameManager.Get("life");
+        Description = "Lose 8 " + GameManager.Get("life") + "; gain +14 " + GameManager.Get("damage") + " and +1 " + GameManager.Get("target");
+        Cost = "+12 " + GameManager.Get("life");
+        type = EffektType.ATTACK;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.life += 15;
+        contex.maxLife += 12;
+                contex.life += 12;
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.life = 1;
-        contex.damage += 20;
+        contex.life = Mathf.Max(1, contex.life - 8);
+                contex.damage += 14;
+                contex.target += 1;
     }
 
     public override bool haveCost(Wheel contex)

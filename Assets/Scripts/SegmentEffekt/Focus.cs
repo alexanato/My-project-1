@@ -3,15 +3,16 @@ using UnityEngine;
 [Effect("Focus")]
 public class Focus : WheelEffekt
 {
-    // Original Rad-Effekt: Das nächste Segment, das du in dieser Runde triffst, wird doppelt ausgeführt.
-    // Original Kauf-Modifikator: -1 Basis-Wheel.
     public Focus()
     {
         name = "Focus";
         Symbol = "target";
-        Description = "activate neighboring segments";
-        Cost = "-1" + GameManager.Get("wheel");
+        Description = "Trigger one neighboring non-curse segment and gain +1 " + GameManager.Get("target");
+        Cost = "-1 base " + GameManager.Get("wheel");
+        type = EffektType.UTILITY;
     }
+
+    public override bool CanBeTriggeredAsSecondary => false;
 
     public override void doCost(Wheel contex)
     {
@@ -20,15 +21,14 @@ public class Focus : WheelEffekt
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.Effekts[(contex.getCurrentColor() + 1)%8].DoEffekt(contex);
-        contex.type = contex.Effekts[(contex.getCurrentColor() + 1) % 8].type;
-
-        contex.Effekts[(contex.getCurrentColor() - 1 + 8) % 8].DoEffekt(contex);
-        contex.type = contex.Effekts[(contex.getCurrentColor() - 1 + 8) % 8].type;
+        int direction = Random.Range(0, 2) == 0 ? -1 : 1;
+                int index = (contex.getCurrentColor() + direction + 8) % 8;
+                contex.TryTriggerSecondaryEffect(index);
+                contex.target += 1;
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return contex.baseWheelCount >= 1;
+        return contex.baseWheelCount >= 2;
     }
 }

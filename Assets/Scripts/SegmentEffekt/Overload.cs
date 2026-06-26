@@ -3,14 +3,13 @@ using UnityEngine;
 [Effect("Overload")]
 public class Overload : WheelEffekt
 {
-    // Original Rad-Effekt: +3 Wheel, aber die Rad-Farben werden für diese Runde unsichtbar.
-    // Original Kauf-Modifikator: +2 Basis-Mehrfachtreffer.
     public Overload()
     {
         name = "Overload";
-        Symbol = "wheel";
-        Description = "50%  +1 base" + GameManager.Get("damage");
-        Cost = "-1"+GameManager.Get("damage");
+        Symbol = "sword";
+        Description = "+12 " + GameManager.Get("damage") + " and +3 " + GameManager.Get("weak");
+        Cost = "-1 base " + GameManager.Get("damage");
+        type = EffektType.ATTACK;
     }
 
     public override void doCost(Wheel contex)
@@ -20,8 +19,8 @@ public class Overload : WheelEffekt
 
     public override void DoEffekt(Wheel contex)
     {
-        if (Random.Range(0, 3) != 0) return;
-        contex.baseDamage += 1;
+        contex.damage += 12;
+                contex.weak += 3;
     }
 
     public override bool haveCost(Wheel contex)

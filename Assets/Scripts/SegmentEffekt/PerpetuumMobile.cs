@@ -3,30 +3,31 @@ using UnityEngine;
 [Effect("PerpetuumMobile")]
 public class PerpetuumMobile : WheelEffekt
 {
-    // Original Rad-Effekt: +1 Wheel, falls deine aktuelle Rüstung exakt 0 beträgt.
-    // Original Kauf-Modifikator: -1 Basis-Rüstung.
     public PerpetuumMobile()
     {
         name = "Perpetuum Mobile";
         Symbol = "wheel";
-        Description = "+2 " + GameManager.Get("wheel") + " if " + GameManager.Get("armor") + " = 0 +1"+ GameManager.Get("armor");
-        Cost = "+10" + GameManager.Get("poison");
+        Description = "At 0 temporary " + GameManager.Get("armor") + ": +1 " + GameManager.Get("wheel") + " and +3 " + GameManager.Get("armor") + "; else +6 " + GameManager.Get("armor");
+        Cost = "+5 " + GameManager.Get("poison");
+        type = EffektType.WHEEL;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.poisen += 10;
+        contex.poisen += 5;
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        if(contex.armor == 0)
-        {
-            contex.wheelCount++;
-            contex.wheelCount++;
-            contex.armor++;
-        }
-        
+        if (contex.armor == 0)
+                {
+                    contex.AddBonusWheels(1);
+                    contex.armor += 3;
+                }
+                else
+                {
+                    contex.armor += 6;
+                }
     }
 
     public override bool haveCost(Wheel contex)

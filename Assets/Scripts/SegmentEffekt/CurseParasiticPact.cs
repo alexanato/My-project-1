@@ -3,26 +3,27 @@ using UnityEngine;
 [Effect("CurseParasiticPact")]
 public class CurseParasiticPact : WheelEffekt
 {
-    // Original Rad-Effekt: Fluch: Parasitärer Pakt Du verlierst sofort 20% deiner aktuellen HP (nicht blockbar).
-    // Original Kauf-Modifikator:+1 speed, +1 Basis-Wheel.
     public CurseParasiticPact()
     {
-        name = "Parasitic Pakt";
+        name = "Parasitic Pact";
         Symbol = "curse";
-        Description = "-20 " + GameManager.Get("life");
+        Description = "Curse: lose 15% current " + GameManager.Get("life") + " (min 5)";
+        Cost = "+2 base " + GameManager.Get("damage") + " and +8 " + GameManager.Get("luck");
         type = EffektType.CURSE;
-        Cost = "+1 speed +1" + GameManager.Get("wheel");
     }
+
+    public override bool CanBeTriggeredAsSecondary => false;
 
     public override void doCost(Wheel contex)
     {
-        contex.rotRange.y += 1;
-        contex.baseWheelCount += 1;
+        contex.baseDamage += 2;
+                contex.AddLuck(8);
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.life -= 20;
+        int loss = Mathf.Max(5, Mathf.CeilToInt(contex.life * 0.15f));
+                contex.life = Mathf.Max(1, contex.life - loss);
     }
 
     public override bool haveCost(Wheel contex)

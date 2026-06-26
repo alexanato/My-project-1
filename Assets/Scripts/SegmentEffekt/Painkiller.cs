@@ -3,24 +3,24 @@ using UnityEngine;
 [Effect("Painkiller")]
 public class Painkiller : WheelEffekt
 {
-    // Original Rad-Effekt: Dein Gift heilt dich in dieser Runde, anstatt Schaden zuzufügen.
-    // Original Kauf-Modifikator: -2 Basis-Rüstung, -1 Giftresistenz.
     public Painkiller()
     {
         name = "Painkiller";
         Symbol = "life";
-        Description ="per"+ GameManager.Get("poison") + "+1" + GameManager.Get("life");
-        Cost = "-1" + GameManager.Get("vacine");
+        Description = "Heal current " + GameManager.Get("poison") + " (max 8), then self +2 " + GameManager.Get("poison");
+        Cost = "-1 " + GameManager.Get("vacine");
+        type = EffektType.LIFE;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.vacine--;
+        contex.vacine -= 1;
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.life += contex.poisen;
+        contex.Heal(Mathf.Min(8, contex.poisen));
+                contex.poisen += 2;
     }
 
     public override bool haveCost(Wheel contex)

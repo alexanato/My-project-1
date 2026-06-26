@@ -3,29 +3,28 @@ using UnityEngine;
 [Effect("TacticalStop")]
 public class TacticalStop : WheelEffekt
 {
-    // Original Rad-Effekt: Stoppt das Rad beim nächsten Dreh automatisch exakt auf der gegenüberliegenden Seite.
-    // Original Kauf-Modifikator: -2 WheelSpeed.
     public TacticalStop()
     {
         name = "Tactical Stop";
         Symbol = "target";
-        Description = "+10"+GameManager.Get("damage") +"2 speed";
-        Cost = "+10" + GameManager.Get("luck");
+        Description = "+7 " + GameManager.Get("damage") + " and +1 " + GameManager.Get("target");
+        Cost = "-5 " + GameManager.Get("luck");
+        type = EffektType.TARGET;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.luck += 10;
+        contex.AddLuck(-5);
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.rotRange.y += 2;
-        contex.damage += 10;
+        contex.damage += 7;
+                contex.target += 1;
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return true;
+        return contex.luck >= 5;
     }
 }

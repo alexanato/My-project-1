@@ -3,28 +3,28 @@ using UnityEngine;
 [Effect("ExtraSpin")]
 public class ExtraSpin : WheelEffekt
 {
-    // Original Rad-Effekt: +1 Wheel.
-    // Original Kauf-Modifikator: -1 Basis-Wheel.
     public ExtraSpin()
     {
         name = "Extra Spin";
         Symbol = "wheel";
-        Description = "+1 " + GameManager.Get("wheel");
-        Cost = "+3"+ GameManager.Get("armor");
+        Description = "+1 " + GameManager.Get("wheel") + " and +2 " + GameManager.Get("weak");
+        Cost = "-1 base " + GameManager.Get("armor");
+        type = EffektType.WHEEL;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.baseArmor += 3;
+        contex.baseArmor -= 1;
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.wheelCount += 1;
+        contex.AddBonusWheels(1);
+                contex.weak += 2;
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return true;
+        return contex.baseArmor >= 1;
     }
 }

@@ -3,28 +3,27 @@ using UnityEngine;
 [Effect("WeaknessCascade")]
 public class WeaknessCascade : WheelEffekt
 {
-    // Original Rad-Effekt: Verursacht Damage = (Eigene Schwäche × Gegner Schwäche).
-    // Original Kauf-Modifikator: +2 Schwäche.
     public WeaknessCascade()
     {
         name = "Weakness Cascade";
         Symbol = "target";
-        Description = "+1" + GameManager.Get("damage") +"per enemy" + GameManager.Get("broken");
-        Cost = "-1" + GameManager.Get("target");
+        Description = "+2 " + GameManager.Get("damage") + " per enemy " + GameManager.Get("weak") + " (max 20)";
+        Cost = "-1 base " + GameManager.Get("target");
+        type = EffektType.ATTACK;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.target -= 1;
+        contex.baseTarget -= 1;
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.damage += contex.EnemyWheel.weak;
+        contex.damage += Mathf.Min(20, contex.EnemyWheel.weak * 2);
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return contex.target >= 2;
+        return contex.baseTarget >= 2;
     }
 }

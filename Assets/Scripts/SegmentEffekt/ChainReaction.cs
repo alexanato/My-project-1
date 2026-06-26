@@ -3,31 +3,34 @@ using UnityEngine;
 [Effect("ChainReaction")]
 public class ChainReaction : WheelEffekt
 {
-    // Original Rad-Effekt: Wenn du in dieser Runde schon einmal gedreht hast, erhältst du +2 Wheel.
-    // Original Kauf-Modifikator: -1 Basis-Wheel.
     public ChainReaction()
     {
         name = "Chain Reaction";
         Symbol = "wheel";
-        Description = "first spin +2"+ GameManager.Get("wheel")+ "+3"+GameManager.Get("life");
-        Cost = "-1"+GameManager.Get("wheel");
+        Description = "First spin: +1 " + GameManager.Get("wheel") + "; otherwise +5 " + GameManager.Get("damage");
+        Cost = "-1 base " + GameManager.Get("target");
+        type = EffektType.WHEEL;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.baseWheelCount -= 1;
+        contex.baseTarget -= 1;
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        if(contex.x == 2)
-        {
-            contex.wheelCount += 2;
-        }
+        if (contex.x <= 2)
+                {
+                    contex.AddBonusWheels(1);
+                }
+                else
+                {
+                    contex.damage += 5;
+                }
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return contex.baseWheelCount >= 2;
+        return contex.baseTarget >= 2;
     }
 }

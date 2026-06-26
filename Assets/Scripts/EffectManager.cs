@@ -6,49 +6,88 @@ using UnityEngine;
 
 public class EffectManager : MonoBehaviour
 {
-    private Dictionary<string, Type> effectRegistry = new Dictionary<string, Type>();
+    private readonly Dictionary<string, Type> effectRegistry = new Dictionary<string, Type>();
 
-    void Awake()
+    private void Awake()
     {
-        var types = Assembly.GetExecutingAssembly().GetTypes();
+        effectRegistry.Clear();
 
-        foreach (var type in types)
+        Type[] types;
+        try
         {
-            if (type.IsAbstract) continue;
+            types = Assembly.GetExecutingAssembly().GetTypes();
+        }
+        catch (ReflectionTypeLoadException exception)
+        {
+            types = exception.Types.Where(type => type != null).ToArray();
+            Debug.LogWarning("Einige Typen konnten nicht geladen werden. Registrierbare Effekte werden trotzdem verwendet.");
+        }
 
-            var attribute = type.GetCustomAttribute<EffectAttribute>();
-
-            if (attribute != null && type.IsSubclassOf(typeof(WheelEffekt)))
+        foreach (Type type in types)
+        {
+            if (type == null || type.IsAbstract || !type.IsSubclassOf(typeof(WheelEffekt)))
             {
-                effectRegistry.Add(attribute.EffectId, type);
-                Debug.Log($"[EffectRegistry] {attribute.EffectId} erfolgreich registriert!");
+                continue;
             }
+
+            EffectAttribute attribute = type.GetCustomAttribute<EffectAttribute>(false);
+            if (attribute == null || string.IsNullOrWhiteSpace(attribute.EffectId))
+            {
+                continue;
+            }
+
+            if (type.GetConstructor(Type.EmptyTypes) == null)
+            {
+                Debug.LogError("Effekt '" + type.Name + "' benötigt einen öffentlichen parameterlosen Konstruktor.");
+                continue;
+            }
+
+            string effectId = attribute.EffectId.Trim();
+            if (effectRegistry.ContainsKey(effectId))
+            {
+                Debug.LogError("Doppelte Effekt-ID: " + effectId);
+                continue;
+            }
+
+            effectRegistry.Add(effectId, type);
         }
     }
 
     public WheelEffekt CreateEffect(string effectId)
     {
-        if (effectRegistry.TryGetValue(effectId, out Type effectType))
+        if (string.IsNullOrWhiteSpace(effectId))
         {
-            return (WheelEffekt)Activator.CreateInstance(effectType);
+            return null;
         }
 
-        Debug.LogError($"Effekt mit ID '{effectId}' wurde nicht gefunden!");
-        return null;
+        Type effectType;
+        if (!effectRegistry.TryGetValue(effectId.Trim(), out effectType))
+        {
+            Debug.LogError("Effekt mit ID '" + effectId + "' wurde nicht gefunden.");
+            return null;
+        }
+
+        try
+        {
+            return Activator.CreateInstance(effectType) as WheelEffekt;
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError("Effekt '" + effectId + "' konnte nicht erstellt werden: " + exception.Message);
+            return null;
+        }
     }
+
     public WheelEffekt CreateRandomEffect()
     {
         if (effectRegistry.Count == 0)
         {
-            Debug.LogWarning("[EffectManager] Es sind keine Effekte registriert, die zufällig ausgewählt werden könnten!");
+            Debug.LogWarning("Es sind keine Shop-Effekte registriert.");
             return null;
         }
 
-        var keys = effectRegistry.Keys.ToList();
-
+        List<string> keys = effectRegistry.Keys.ToList();
         int randomIndex = UnityEngine.Random.Range(0, keys.Count);
-        string randomEffectId = keys[randomIndex];
-
-        return CreateEffect(randomEffectId);
+        return CreateEffect(keys[randomIndex]);
     }
 }

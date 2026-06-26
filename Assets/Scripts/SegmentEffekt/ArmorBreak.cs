@@ -3,30 +3,28 @@ using UnityEngine;
 [Effect("ArmorBreak")]
 public class ArmorBreak : WheelEffekt
 {
-    // Original Rad-Effekt: Zerstört 10 Armor beim Gegner und fügt ihm +3 Schwäche zu.
-    // Original Kauf-Modifikator: -1 Basis-Rüstung.
     public ArmorBreak()
     {
         name = "Armor Break";
         Symbol = "broken";
-        Description = "enemy -10" + GameManager.Get("armor") + "+3 " + GameManager.Get("broken");
-        type = EffektType.DEFENSE;
-        Cost = "-1" + GameManager.Get("armor");
+        Description = "Enemy -6 " + GameManager.Get("armor") + " and +2 " + GameManager.Get("weak");
+        Cost = "-1 " + GameManager.Get("damage");
+        type = EffektType.TARGET;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.armor -= 1;
+        contex.baseDamage -= 1;
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.EnemyWheel.armor =  Mathf.Max(0, contex.EnemyWheel.armor - 10);
-        contex.EnemyWheel.weak += 3;
+        contex.EnemyWheel.armor = Mathf.Max(0, contex.EnemyWheel.armor - 6);
+                contex.EnemyWheel.weak += 2;
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return contex.baseArmor >= 1;
+        return contex.baseDamage >= 1;
     }
 }

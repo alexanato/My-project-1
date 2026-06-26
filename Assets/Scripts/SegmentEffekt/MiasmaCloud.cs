@@ -3,13 +3,13 @@ using UnityEngine;
 [Effect("MiasmaCloud")]
 public class MiasmaCloud : WheelEffekt
 {
-    // Original Rad-Effekt: Gegner erhält 1 Gift für jeden negativen permanenten Stat, den du aktuell besitzt.
-    // Original Kauf-Modifikator: -2 Base Armor.
     public MiasmaCloud()
     {
         name = "Miasma Cloud";
         Symbol = "poison";
-        Description = "+1 " + GameManager.Get("poison") + "per" + GameManager.Get("armor");
+        Description = "Enemy +2 " + GameManager.Get("poison") + " +1 per 3 temporary " + GameManager.Get("armor") + " (max 8)";
+        Cost = "-2 base " + GameManager.Get("armor");
+        type = EffektType.POISON;
     }
 
     public override void doCost(Wheel contex)
@@ -19,11 +19,11 @@ public class MiasmaCloud : WheelEffekt
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.EnemyWheel.poisen += contex.armor;
+        contex.EnemyWheel.poisen += Mathf.Min(8, 2 + contex.armor / 3);
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return contex.baseArmor >=2;
+        return contex.baseArmor >= 2;
     }
 }

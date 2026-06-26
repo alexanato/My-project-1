@@ -3,28 +3,27 @@ using UnityEngine;
 [Effect("LuckyHit")]
 public class LuckyHit : WheelEffekt
 {
-    // Original Rad-Effekt: Verursacht Damage = (Aktuelles Glück / 5).
-    // Original Kauf-Modifikator: -3 base damage.
     public LuckyHit()
     {
         name = "Lucky Hit";
         Symbol = "sword";
-        Description =   "per 5"+ GameManager.Get("luck") + "+1" + GameManager.Get("damage");
-        Cost = "-3" + GameManager.Get("damage");
+        Description = "+1 " + GameManager.Get("damage") + " per 5 " + GameManager.Get("luck") + " (max 15)";
+        Cost = "-2 base " + GameManager.Get("damage");
+        type = EffektType.ATTACK;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.baseDamage -= 3;
+        contex.baseDamage -= 2;
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.damage += contex.luck / 5;
+        contex.damage += Mathf.Min(15, contex.luck / 5);
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return contex.baseDamage >= 3;
+        return contex.baseDamage >= 2;
     }
 }

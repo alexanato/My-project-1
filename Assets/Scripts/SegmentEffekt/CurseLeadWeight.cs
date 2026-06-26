@@ -3,24 +3,27 @@ using UnityEngine;
 [Effect("CurseLeadWeight")]
 public class CurseLeadWeight : WheelEffekt
 {
-    // Original Rad-Effekt: Fluch: Bleigewicht Dein WheelSpeed erhöht sich für den Rest des Kampfes um +5.
-    // Original Kauf-Modifikator: +2 Basis-Wheel.
     public CurseLeadWeight()
     {
         name = "Lead Weight";
         Symbol = "curse";
-        Description = "+1 speed";
-        Cost = "+2" + GameManager.Get("wheel");
+        Description = "Curse: end your turn and gain 2 " + GameManager.Get("weak");
+        Cost = "+1 base " + GameManager.Get("wheel") + ", +1.25 speed";
+        type = EffektType.CURSE;
     }
+
+    public override bool CanBeTriggeredAsSecondary => false;
 
     public override void doCost(Wheel contex)
     {
-        contex.baseWheelCount += 2;
+        contex.baseWheelCount += 1;
+                contex.ChangeWheelSpeed(1.25f);
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.rotRange.y++;
+        contex.weak += 2;
+                contex.EndCurrentTurn();
     }
 
     public override bool haveCost(Wheel contex)

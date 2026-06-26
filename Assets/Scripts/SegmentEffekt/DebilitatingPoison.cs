@@ -3,14 +3,13 @@ using UnityEngine;
 [Effect("DebilitatingPoison")]
 public class DebilitatingPoison : WheelEffekt
 {
-    // Original Rad-Effekt: Wenn Gegner Gift besitzt, erhält er zusätzlich +2 Schwäche.
-    // Original Kauf-Modifikator: -1 Basis-Rüstung.
     public DebilitatingPoison()
     {
         name = "Debilitating Poison";
         Symbol = "poison";
-        Description = "If enemy" + GameManager.Get("poison") + "> 4 =+4" + GameManager.Get("broken") + "enemy";
-        Cost = "-1" + GameManager.Get("armor");
+        Description = "Enemy +2 " + GameManager.Get("poison") + "; if already poisoned, +3 " + GameManager.Get("weak");
+        Cost = "-1 base " + GameManager.Get("armor");
+        type = EffektType.POISON;
     }
 
     public override void doCost(Wheel contex)
@@ -20,10 +19,14 @@ public class DebilitatingPoison : WheelEffekt
 
     public override void DoEffekt(Wheel contex)
     {
-        if(contex.EnemyWheel.poisen >= 4)
-        {
-            contex.weak += 4;
-        }
+        if (contex.EnemyWheel.poisen >= 4)
+                {
+                    contex.EnemyWheel.weak += 3;
+                }
+                else
+                {
+                    contex.EnemyWheel.poisen += 2;
+                }
     }
 
     public override bool haveCost(Wheel contex)

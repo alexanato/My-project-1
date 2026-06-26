@@ -1,6 +1,4 @@
-using System;
 using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class EnemyWheel : Wheel
@@ -10,25 +8,48 @@ public class EnemyWheel : Wheel
     public TMP_Text textto;
     public TMP_Text textro;
     public TMP_Text textfi;
-    void Start()
+
+    private void Start()
     {
+        wheel = false;
         GameManager.EnemyWheel = this;
-        Effekts[0] = new DamageEffekt();
-        Effekts[1] = new DamageEffekt();
-        Effekts[2] = new DamageEffekt();
-        Effekts[3] = new DamageEffekt();
-        Effekts[4] = new DamageEffekt(43);
-        Effekts[5] = new DamageEffekt();
-        Effekts[6] = new DamageEffekt();
-        Effekts[7] = new DamageEffekt();
+        LoadEnemy(GameManager.stage);
+        GameManager.ConnectWheels();
     }
-    private void Update()
+
+    private new void Update()
     {
         base.Update();
-        texti.text = $"{GameManager.Get("damage")}{baseDamage + damage}x{GameManager.Get("target")}{baseTarget + target}-{GameManager.Get("weak")}{weak}={Math.Max(0, (baseDamage + damage) * (baseTarget + target) - weak)}";
-        textri.text = $"{GameManager.Get("poison")}{poisen}-{GameManager.Get("vacine")}{vacine}={GameManager.Get("poison")}{math.max(0, poisen - vacine)}";
-        textto.text = $"{GameManager.Get("life")}{life}-{GameManager.Get("poison")}{poisen}={GameManager.Get("life")}{life - poisen}";
-        textro.text = $"{GameManager.Get("life")}{life - poisen}+{GameManager.Get("armor")}{armor + baseArmor}- {GameManager.Get("damage")}{EnemyWheel.damage + EnemyWheel.baseDamage}={GameManager.Get("life")}{(life - poisen) - Math.Max((EnemyWheel.damage + EnemyWheel.baseDamage) - (armor + baseArmor), 0)}";
-        textfi.text = $"{GameManager.Get("wheel")}{((wheelCount+baseWheelCount)*2-x)}";
+
+        int outgoingDamage = Mathf.Max(0, TotalDamage * TotalTargets - weak);
+        int playerOutgoingDamage = EnemyWheel == null
+            ? 0
+            : Mathf.Max(0, EnemyWheel.TotalDamage * EnemyWheel.TotalTargets - EnemyWheel.weak);
+
+        if (texti != null)
+        {
+            texti.text = $"{GameManager.Get("damage")}{TotalDamage}x{GameManager.Get("target")}{TotalTargets}-{GameManager.Get("weak")}{weak}={outgoingDamage}";
+        }
+
+        if (textri != null)
+        {
+            textri.text = $"{GameManager.Get("poison")}{poisen}-{GameManager.Get("vacine")}{vacine}={GameManager.Get("poison")}{EffectivePoison}";
+        }
+
+        if (textto != null)
+        {
+            textto.text = $"{GameManager.Get("life")}{life}-{GameManager.Get("poison")}{EffectivePoison}={GameManager.Get("life")}{life - EffectivePoison}";
+        }
+
+        if (textro != null)
+        {
+            int resultLife = life - EffectivePoison - Mathf.Max(0, playerOutgoingDamage - TotalArmor);
+            textro.text = $"{GameManager.Get("life")}{life - EffectivePoison}+{GameManager.Get("armor")}{TotalArmor}-{GameManager.Get("damage")}{playerOutgoingDamage}={GameManager.Get("life")}{resultLife}";
+        }
+
+        if (textfi != null)
+        {
+            textfi.text = $"{GameManager.Get("wheel")}{RemainingWheels}";
+        }
     }
 }

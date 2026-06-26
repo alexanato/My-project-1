@@ -3,14 +3,13 @@ using UnityEngine;
 [Effect("Momentum")]
 public class Momentum : WheelEffekt
 {
-    // Original Rad-Effekt: +1 Wheel, falls du in dieser Runde bereits mehr als 3 Treffer erzielt hast.
-    // Original Kauf-Modifikator: -2 Basis-Wheel.
     public Momentum()
     {
         name = "Momentum";
         Symbol = "wheel";
-        Description = "+2 " + GameManager.Get("wheel") + " if 2nd spind";
-        Cost = "-1" + GameManager.Get("target");
+        Description = "Second or later spin: +1 " + GameManager.Get("wheel") + "; first spin: +5 " + GameManager.Get("damage");
+        Cost = "-1 base " + GameManager.Get("target");
+        type = EffektType.WHEEL;
     }
 
     public override void doCost(Wheel contex)
@@ -20,10 +19,14 @@ public class Momentum : WheelEffekt
 
     public override void DoEffekt(Wheel contex)
     {
-        if(contex.x == 4)
-        {
-            contex.wheelCount += 2;
-        }
+        if (contex.x >= 4)
+                {
+                    contex.AddBonusWheels(1);
+                }
+                else
+                {
+                    contex.damage += 5;
+                }
     }
 
     public override bool haveCost(Wheel contex)

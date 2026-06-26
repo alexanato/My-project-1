@@ -3,27 +3,29 @@ using UnityEngine;
 [Effect("SynergyExorzism")]
 public class SynergyExorzism : WheelEffekt
 {
-    // Original Rad-Effekt: Synergie: Exorzismus Verursacht 5 Damage. Darfst ein verfluchtes Segment für diesen Kampf deaktivieren (wird zum leeren Feld).
-    // Original Kauf-Modifikator: -2 Basis-Rüstung.
     public SynergyExorzism()
     {
         name = "Exorcism";
         Symbol = "bell";
-        Description = "+1" +GameManager.Get("luck") +"per"+GameManager.Get("curse");
-        Cost = ">3" + GameManager.Get("curse") + " amount";
+        Description = "Per " + GameManager.Get("curse") + ": remove 2 " + GameManager.Get("poison") + " and 1 " + GameManager.Get("weak");
+        Cost = "-5 " + GameManager.Get("luck");
+        type = EffektType.UTILITY;
     }
 
     public override void doCost(Wheel contex)
     {
+        contex.AddLuck(-5);
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.luck += contex.getCurses();
+        int curses = contex.getCurses();
+                contex.poisen = Mathf.Max(0, contex.poisen - curses * 2);
+                contex.weak = Mathf.Max(0, contex.weak - curses);
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return contex.getCurses() >= 3;
+        return contex.luck >= 5 && contex.getCurses() >= 2;
     }
 }

@@ -3,29 +3,28 @@ using UnityEngine;
 [Effect("Vertigo")]
 public class Vertigo : WheelEffekt
 {
-    // Original Rad-Effekt: +2 Wheel, du erhältst +3 Schwäche.
-    // Original Kauf-Modifikator: +2 Basis-Rüstung.
     public Vertigo()
     {
         name = "Vertigo";
         Symbol = "wheel";
-        Description = "+2 " + GameManager.Get("wheel") + "+10 " + GameManager.Get("broken");
-        Cost = "-2" +GameManager.Get("wheel");
+        Description = "+1 " + GameManager.Get("wheel") + " and +4 " + GameManager.Get("weak");
+        Cost = "+2 base " + GameManager.Get("armor");
+        type = EffektType.WHEEL;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.baseWheelCount -= 2;
+        contex.baseArmor += 2;
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.wheelCount += 2;
-        contex.weak += 10;
+        contex.AddBonusWheels(1);
+                contex.weak += 4;
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return contex.baseWheelCount >= 3;
+        return true;
     }
 }

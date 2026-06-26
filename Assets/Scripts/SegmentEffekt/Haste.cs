@@ -3,23 +3,24 @@ using UnityEngine;
 [Effect("Haste")]
 public class Haste : WheelEffekt
 {
-    // Original Rad-Effekt: +1 WheelSpeed (Rad dreht sich extrem schnell), +10 Damage.
-    // Original Kauf-Modifikator: -1 speed.
     public Haste()
     {
         name = "Haste";
         Symbol = "wheel";
-        Description = "+1 speed +10 " + GameManager.Get("damage");
+        Description = "+10 " + GameManager.Get("damage") + " and +2 " + GameManager.Get("weak");
+        Cost = "+0.5 speed";
+        type = EffektType.ATTACK;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.rotRange.y -= 1;
+        contex.ChangeWheelSpeed(0.5f);
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.rotRange.y += 1;
+        contex.damage += 10;
+                contex.weak += 2;
     }
 
     public override bool haveCost(Wheel contex)

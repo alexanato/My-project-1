@@ -3,14 +3,13 @@ using UnityEngine;
 [Effect("ThousandCuts")]
 public class ThousandCuts : WheelEffekt
 {
-    // Original Rad-Effekt: +5 Mehrfachtreffer, aber -5 Damage für diesen Dreh.
-    // Original Kauf-Modifikator: +2 Basis-Schaden.
     public ThousandCuts()
     {
         name = "Thousand Cuts";
         Symbol = "sword";
-        Description = "+5"+ GameManager.Get("target") +"-20" + GameManager.Get("damage");
-        Cost = "-1" + GameManager.Get("target");
+        Description = "+3 " + GameManager.Get("target") + ", lose 8 current " + GameManager.Get("damage") + " and gain 2 " + GameManager.Get("weak");
+        Cost = "-1 base " + GameManager.Get("target");
+        type = EffektType.ATTACK;
     }
 
     public override void doCost(Wheel contex)
@@ -20,11 +19,9 @@ public class ThousandCuts : WheelEffekt
 
     public override void DoEffekt(Wheel contex)
     {
-        if(contex.damage >= 20)
-        {
-            contex.damage -= 20;
-            contex.target += 5;
-        }
+        contex.damage = Mathf.Max(0, contex.damage - 8);
+                contex.target += 3;
+                contex.weak += 2;
     }
 
     public override bool haveCost(Wheel contex)

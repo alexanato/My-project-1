@@ -3,14 +3,13 @@ using UnityEngine;
 [Effect("Decomposition")]
 public class Decomposition : WheelEffekt
 {
-    // Original Rad-Effekt: Gegner verliert 1 Basis-Rüstung (für diesen Kampf) pro 3 Gift-Stapel, die er hat.
-    // Original Kauf-Modifikator: -1 Basis-Mehrfachtreffer.
     public Decomposition()
     {
         name = "Decomposition";
-        Symbol = "broken";
-        Description = "-5" + GameManager.Get("life") + "enemy x1.5" + GameManager.Get("poison");
-        Cost = "-1" + GameManager.Get("target");
+        Symbol = "poison";
+        Description = "Enemy " + GameManager.Get("poison") + " +50% (max +8); self -3 " + GameManager.Get("life");
+        Cost = "-1 base " + GameManager.Get("target");
+        type = EffektType.POISON;
     }
 
     public override void doCost(Wheel contex)
@@ -20,8 +19,9 @@ public class Decomposition : WheelEffekt
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.life -= 1;
-        contex.EnemyWheel.poisen *= (int)1.5;
+        int increase = Mathf.Clamp(contex.EnemyWheel.poisen / 2, 2, 8);
+                contex.EnemyWheel.poisen += increase;
+                contex.life = Mathf.Max(1, contex.life - 3);
     }
 
     public override bool haveCost(Wheel contex)

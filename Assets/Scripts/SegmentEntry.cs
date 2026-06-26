@@ -10,19 +10,30 @@ public class SegmentEntry : MonoBehaviour
     public TMP_Text cost;
     public TMP_Text name;
     public Image bg;
+
     private void Start()
     {
-        effekt = new DamageEffekt(4);
+        if (effekt == null)
+        {
+            effekt = new DamageEffekt(4);
+        }
     }
+
     private void Update()
     {
-        Desc.text = effekt.Description;
-        bg.color = GameManager.WheelColor[effekt.color];
-        cost.text = effekt.Cost;
-        name.text = effekt.name;
+        if (effekt == null) return;
+
+        if (Desc != null) Desc.text = effekt.Description;
+        if (bg != null) bg.color = GameManager.WheelColor[Mathf.Clamp(effekt.color, 0, 7)];
+        if (cost != null) cost.text = effekt.Cost;
+        if (name != null) name.text = effekt.name;
     }
+
     public void Buy()
     {
-        shopManager.Buy(this);
+        if (shopManager != null)
+        {
+            shopManager.Buy(this);
+        }
     }
 }

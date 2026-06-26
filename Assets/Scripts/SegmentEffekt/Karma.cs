@@ -3,14 +3,13 @@ using UnityEngine;
 [Effect("Karma")]
 public class Karma : WheelEffekt
 {
-    // Original Rad-Effekt: Heilt dich um den absoluten Wert deines am tiefsten im Minus stehenden permanenten Stats.
-    // Original Kauf-Modifikator: -1 Basis-Wheel.
     public Karma()
     {
         name = "Karma";
         Symbol = "life";
-        Description = "+"+GameManager.Get("life") + " = lowest base stat";
-        Cost = "-2"+GameManager.Get("armor");
+        Description = "Heal from your debuffs: " + GameManager.Get("weak") + " + half " + GameManager.Get("poison") + " (max 8)";
+        Cost = "-2 base " + GameManager.Get("armor");
+        type = EffektType.LIFE;
     }
 
     public override void doCost(Wheel contex)
@@ -20,7 +19,8 @@ public class Karma : WheelEffekt
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.life += Mathf.Min(contex.baseArmor, contex.baseDamage, contex.baseTarget);
+        int healing = Mathf.Min(8, contex.weak + contex.poisen / 2);
+                contex.Heal(healing);
     }
 
     public override bool haveCost(Wheel contex)

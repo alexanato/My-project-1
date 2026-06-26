@@ -3,28 +3,28 @@ using UnityEngine;
 [Effect("Bulwark")]
 public class Bulwark : WheelEffekt
 {
-    // Original Rad-Effekt: Verdoppelt deine aktuelle Rüstung für diese Runde.
-    // Original Kauf-Modifikator: -3 Basis-Rüstung.
     public Bulwark()
     {
         name = "Bulwark";
         Symbol = "armor";
-        Description = "2x " + GameManager.Get("armor");
-        Cost = "-3" + GameManager.Get("armor");
+        Description = "Gain 6-12 " + GameManager.Get("armor") + " based on total armor";
+        Cost = "-2 base " + GameManager.Get("armor");
+        type = EffektType.DEFENSE;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.baseArmor -= 3;
+        contex.baseArmor -= 2;
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.armor *= 2;
+        int bonus = Mathf.Clamp(contex.TotalArmor / 2, 6, 12);
+                contex.armor += bonus;
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return contex.baseArmor >= 3;
+        return contex.baseArmor >= 2;
     }
 }

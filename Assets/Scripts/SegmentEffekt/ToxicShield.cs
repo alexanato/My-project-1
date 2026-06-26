@@ -3,14 +3,13 @@ using UnityEngine;
 [Effect("ToxicShield")]
 public class ToxicShield : WheelEffekt
 {
-    // Original Rad-Effekt: Toxischer Schild +5 Armor. Gegner erhält Gift in Höhe des abgewehrten Schadens dieser Runde.
-    // Original Kauf-Modifikator: -2 Basis-Rüstung.
     public ToxicShield()
     {
         name = "Toxic Shield";
         Symbol = "armor";
-        Description = "+5 " + GameManager.Get("armor") + "+2" + GameManager.Get("poison");
-        Cost = "-1" + GameManager.Get("armor");
+        Description = "+7 " + GameManager.Get("armor") + " and enemy +2 " + GameManager.Get("poison");
+        Cost = "-1 base " + GameManager.Get("armor");
+        type = EffektType.DEFENSE;
     }
 
     public override void doCost(Wheel contex)
@@ -20,8 +19,8 @@ public class ToxicShield : WheelEffekt
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.armor += 5;
-        contex.poisen += 2;
+        contex.armor += 7;
+                contex.EnemyWheel.poisen += 2;
     }
 
     public override bool haveCost(Wheel contex)

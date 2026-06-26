@@ -3,28 +3,27 @@ using UnityEngine;
 [Effect("Attrition")]
 public class Attrition : WheelEffekt
 {
-    // Original Rad-Effekt: +3 Schwäche beim Gegner.
-    // Original Kauf-Modifikator: -2 Glück.
     public Attrition()
     {
         name = "Attrition";
         Symbol = "target";
-        Description = "enemy +3" + GameManager.Get("broken");
-        Cost = "-2"+GameManager.Get("luck");
+        Description = "Enemy +2 " + GameManager.Get("weak") + " (+3 if poisoned)";
+        Cost = "-4 " + GameManager.Get("luck");
+        type = EffektType.TARGET;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.luck -= 2;
+        contex.AddLuck(-4);
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.EnemyWheel.weak += 3;
+        contex.EnemyWheel.weak += contex.EnemyWheel.poisen >= 4 ? 3 : 2;
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return contex.luck >= 2;
+        return contex.luck >= 4;
     }
 }

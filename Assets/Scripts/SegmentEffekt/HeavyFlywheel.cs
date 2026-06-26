@@ -3,28 +3,31 @@ using UnityEngine;
 [Effect("HeavyFlywheel")]
 public class HeavyFlywheel : WheelEffekt
 {
-    // Original Rad-Effekt: +1 Wheel, du verlierst dafür sofort 5 Armor.
-    // Original Kauf-Modifikator: +1 Basis-Rüstung.
     public HeavyFlywheel()
     {
         name = "Heavy Flywheel";
         Symbol = "wheel";
-        Description = "+2 " + GameManager.Get("wheel") + "-10 " + GameManager.Get("armor");
-        Cost = "+1" + GameManager.Get("armor");
+        Description = "Spend 6 " + GameManager.Get("armor") + " for +1 " + GameManager.Get("wheel") + "; otherwise gain 4 " + GameManager.Get("armor");
+        Cost = "+0.25 speed";
+        type = EffektType.WHEEL;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.baseArmor += 1;
+        contex.ChangeWheelSpeed(0.25f);
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        if( contex.armor >= 10)
-        {
-            contex.armor -= 10;
-            contex.wheelCount += 2;
-        }
+        if (contex.armor >= 6)
+                {
+                    contex.armor -= 6;
+                    contex.AddBonusWheels(1);
+                }
+                else
+                {
+                    contex.armor += 4;
+                }
     }
 
     public override bool haveCost(Wheel contex)

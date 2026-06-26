@@ -3,31 +3,28 @@ using UnityEngine;
 [Effect("SpikePlating")]
 public class SpikePlating : WheelEffekt
 {
-    // Original Rad-Effekt: Verursacht Damage in Höhe von 50% deiner aktuellen Rüstung.
-    // Original Kauf-Modifikator: -2 Basis-Rüstung.
     public SpikePlating()
     {
         name = "Spike Plating";
         Symbol = "armor";
-        Description = "if" + GameManager.Get("armor") + " = " + GameManager.Get("damage") +"+10"+ GameManager.Get("luck");
-        Cost = "+2" + GameManager.Get("damage");
+        Description = "+6 " + GameManager.Get("armor") + " and up to +6 " + GameManager.Get("damage") + " from temporary armor";
+        Cost = "-2 base " + GameManager.Get("armor");
+        type = EffektType.DEFENSE;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.baseDamage += 2;
+        contex.baseArmor -= 2;
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        if(contex.damage == contex.armor)
-        {
-            contex.luck += 10;
-        }
+        contex.armor += 6;
+                contex.damage += Mathf.Min(6, contex.armor / 3);
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return true;
+        return contex.baseArmor >= 2;
     }
 }

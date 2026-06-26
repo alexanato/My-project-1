@@ -3,24 +3,23 @@ using UnityEngine;
 [Effect("IronSkin")]
 public class IronSkin : WheelEffekt
 {
-    // Original Rad-Effekt: +10 Armor.
-    // Original Kauf-Modifikator: +2 WheelSpeed.
     public IronSkin()
     {
         name = "Iron Skin";
         Symbol = "armor";
-        Description = "+10 " + GameManager.Get("armor");
-        Cost = "+1 speed";
+        Description = "+9 " + GameManager.Get("armor");
+        Cost = "+0.5 speed";
+        type = EffektType.DEFENSE;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.rotRange.y += 1;
+        contex.ChangeWheelSpeed(0.5f);
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.armor += 10;
+        contex.armor += 9;
     }
 
     public override bool haveCost(Wheel contex)

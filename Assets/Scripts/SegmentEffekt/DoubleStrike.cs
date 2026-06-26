@@ -3,14 +3,13 @@ using UnityEngine;
 [Effect("DoubleStrike")]
 public class DoubleStrike : WheelEffekt
 {
-    // Original Rad-Effekt: +1 Mehrfachtreffer (für diesen Dreh), +2 Damage.
-    // Original Kauf-Modifikator: -1 Basis-Schaden.
     public DoubleStrike()
     {
         name = "Double Strike";
         Symbol = "sword";
-        Description = "+1 "+ GameManager.Get("target") + " +2 " + GameManager.Get("damage");
-        Cost = "-1" + GameManager.Get("target");
+        Description = "+3 " + GameManager.Get("damage") + " and +1 " + GameManager.Get("target");
+        Cost = "-2 base " + GameManager.Get("damage");
+        type = EffektType.ATTACK;
     }
 
     public override void doCost(Wheel contex)
@@ -20,8 +19,8 @@ public class DoubleStrike : WheelEffekt
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.damage += 2;
-        contex.target += 1;
+        contex.damage += 3;
+                contex.target += 1;
     }
 
     public override bool haveCost(Wheel contex)

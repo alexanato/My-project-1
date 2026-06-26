@@ -1,13 +1,13 @@
-using UnityEngine;
-
-public class DamageEffekt :WheelEffekt
+public class DamageEffekt : WheelEffekt
 {
-    int a = 2;
-    public DamageEffekt(int a = 2)
+    private readonly int amount;
+
+    public DamageEffekt(int amount = 2)
     {
-        Description = "+"+ a +GameManager.Get("damage");
-        this.a = a;
-        name = "weak Hit";
+        this.amount = amount;
+        Description = "+" + amount + " " + GameManager.Get("damage");
+        Cost = "";
+        name = "Weak Hit";
         Symbol = "sword";
         type = EffektType.ATTACK;
     }
@@ -18,7 +18,7 @@ public class DamageEffekt :WheelEffekt
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.damage += a;
+        contex.damage += amount;
     }
 
     public override bool haveCost(Wheel contex)

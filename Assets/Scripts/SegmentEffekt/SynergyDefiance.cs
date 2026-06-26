@@ -3,28 +3,29 @@ using UnityEngine;
 [Effect("SynergyDefiance")]
 public class SynergyDefiance : WheelEffekt
 {
-    // Original Rad-Effekt: Synergie: Trotz Landest du auf einem verfluchten Segment, wird dessen effekt auf den Gegner umgeleitet. (1-mal pro Runde).
-    // Original Kauf-Modifikator: -3 Basis-Wheel.
     public SynergyDefiance()
     {
         name = "Defiance";
         Symbol = "bell";
-        Description = "+1"+GameManager.Get("life") +"per"+ GameManager.Get("curse");
-        Cost = "-1"+GameManager.Get("damage");
+        Description = "Per " + GameManager.Get("curse") + ": +3 " + GameManager.Get("armor") + " and heal 1 (caps 12/4)";
+        Cost = "-1 base " + GameManager.Get("damage");
+        type = EffektType.DEFENSE;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.baseDamage--;
+        contex.baseDamage -= 1;
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.life += contex.getCurses();
+        int curses = contex.getCurses();
+                contex.armor += Mathf.Min(12, curses * 3);
+                contex.Heal(Mathf.Min(4, curses));
     }
 
     public override bool haveCost(Wheel contex)
     {
-        return contex.baseDamage >=1;
+        return contex.baseDamage >= 1 && contex.getCurses() >= 1;
     }
 }

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public enum EffektType
 {
     ATTACK,
@@ -8,5 +6,8 @@ public enum EffektType
     POISON,
     LUCK,
     VACINE,
-    TARGET
+    TARGET,
+    WHEEL,
+    LIFE,
+    UTILITY
 }

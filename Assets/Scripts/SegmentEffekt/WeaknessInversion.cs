@@ -3,24 +3,25 @@ using UnityEngine;
 [Effect("WeaknessInversion")]
 public class WeaknessInversion : WheelEffekt
 {
-    // Original Rad-Effekt: Wandelt 50% deiner aktuellen Schwäche in Mehrfachtreffer für diesen Dreh um.
-    // Original Kauf-Modifikator: -1 Basis-Schaden.
     public WeaknessInversion()
     {
         name = "Weakness Inversion";
         Symbol = "sword";
-        Description ="per 2" +GameManager.Get("broken") + "+1" + GameManager.Get("target");
-        Cost = "-5" + GameManager.Get("luck");
+        Description = "Convert up to 6 " + GameManager.Get("weak") + " into +1 " + GameManager.Get("target") + " per 2";
+        Cost = "-5 " + GameManager.Get("luck");
+        type = EffektType.TARGET;
     }
 
     public override void doCost(Wheel contex)
     {
-        contex.luck -= 5;
+        contex.AddLuck(-5);
     }
 
     public override void DoEffekt(Wheel contex)
     {
-        contex.target += contex.weak / 2;
+        int pairs = Mathf.Min(3, contex.weak / 2);
+                contex.weak -= pairs * 2;
+                contex.target += pairs;
     }
 
     public override bool haveCost(Wheel contex)
